@@ -34,7 +34,11 @@ class MazeProblem(ProblemInterface):
     def __init__(self, n_rows: int, n_cols: int, seed: Optional[int] = None):
         if seed is not None:
             random.seed(seed)
+        else:
+            seed = random.random()
+            random.seed(seed)
 
+        print("seed usada: {} ".format(seed))
         self.n_rows = n_rows
         self.n_cols = n_cols
 
@@ -44,7 +48,7 @@ class MazeProblem(ProblemInterface):
         self._maze = self._random_maze(
             n_rows,
             n_cols,
-            self.initial_state(),
+            self.initial_state(), # se fosse so um self._initial_state dava na mema
             self._goal_state
         )
 
@@ -70,7 +74,7 @@ class MazeProblem(ProblemInterface):
 
         return neighbors
 
-    def transition(self, state: Tuple[int, int], action: Tuple[int, int]) -> Any:
+    def transition(self, state: Tuple[int, int], action: Tuple[int, int]) -> Any: # Nada faz, so repete a action que agr é o state
         return action
 
     def step_cost(self,
@@ -95,7 +99,7 @@ class MazeProblem(ProblemInterface):
 
         # add random obstacles
         n_obstacles = int(0.25 * n_rows * n_cols)
-        for _ in range(n_obstacles):
+        for _ in range(n_obstacles): # pode cair no mesmo lugar a parede
             row = random.randint(0, n_rows-1)
             col = random.randint(0, n_cols-1)
             maze[row][col] = 1
