@@ -66,7 +66,7 @@ def depth_first_search(problem: ProblemInterface, viewer: ViewerInterface) -> Tu
 
         expanded.add(state_node)
 
-        viewer.update(state_node.state, generated=to_explore, expanded=expanded)
+        #viewer.update(state_node.state, generated=to_explore, expanded=expanded)
 
     path = _extract_path(goal_found)
     cost = _path_cost(problem, path)
@@ -149,7 +149,7 @@ def A_Pathfinding(problem: ProblemInterface, viewer: ViewerInterface) -> Tuple[L
                     # adiciona o vizinho no Open
                     OPEN.append(n)
 
-        viewer.update(state_node.state, generated=OPEN, expanded=CLOSED)
+        #viewer.update(state_node.state, generated=OPEN, expanded=CLOSED)
 
     path = _extract_path(goal_found)
     cost = _path_cost(problem, path)
@@ -191,7 +191,7 @@ def breadth_first_search(problem: ProblemInterface, viewer: ViewerInterface) -> 
 
         expanded.add(state_node)
 
-        viewer.update(state_node.state, generated=to_explore, expanded=expanded)
+        #viewer.update(state_node.state, generated=to_explore, expanded=expanded)
 
     path = _extract_path(goal_found)
     cost = _path_cost(problem, path)
@@ -313,6 +313,6 @@ def _fcost(node_state: Node, problem: ProblemInterface) -> float:
     return Fcost
 
 def _calc_weight(node_state: Node, problem: ProblemInterface) -> float:
-    weight = problem.step_cost(problem.initial_state(),None,node_state)
-    #weight = problem.heuristic_cost(node_state)
+    #weight = problem.step_cost(problem.initial_state(),None,node_state)
+    weight = problem.heuristic_cost(node_state)
     return weight
