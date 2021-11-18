@@ -7,6 +7,7 @@ from typing import Any, List, Union, Tuple
 from src.problems import ProblemInterface
 from src.viewer import ViewerInterface
 
+VIEW = True
 
 class  Node:
     # The output path is generated backwards starting from
@@ -66,7 +67,8 @@ def depth_first_search(problem: ProblemInterface, viewer: ViewerInterface) -> Tu
 
         expanded.add(state_node)
 
-        #viewer.update(state_node.state, generated=to_explore, expanded=expanded)
+        if VIEW is True:
+            viewer.update(state_node.state, generated=to_explore, expanded=expanded)
 
     path = _extract_path(goal_found)
     cost = _path_cost(problem, path)
@@ -103,7 +105,7 @@ def A_Pathfinding(problem: ProblemInterface, viewer: ViewerInterface) -> Tuple[L
     OPEN = deque()
     CLOSED = set()
 
-    state_node = Node(problem.initial_state(),Fcost=0)
+    state_node = Node(problem.initial_state(),Fcost=_fcost((0,0),problem))
     OPEN.append(state_node)
 
     goal_found = None
@@ -119,6 +121,7 @@ def A_Pathfinding(problem: ProblemInterface, viewer: ViewerInterface) -> Tuple[L
         for node in OPEN:
             if node.Fcost < state_node.Fcost:
                 state_node = node
+                #print(node.Fcost)
         
         OPEN.remove(state_node)
         CLOSED.add(state_node)
@@ -139,6 +142,7 @@ def A_Pathfinding(problem: ProblemInterface, viewer: ViewerInterface) -> Tuple[L
                 continue
             # se o caminho para o vizinho for f_cost menor OU o vizinho nao esta em OPEN
             Fcost = _fcost(n.state,problem)
+            #print(Fcost)
             if ((Fcost<n.Fcost) or (n not in OPEN)):
                 # define o f_cost do vizinho
                 n.Fcost = Fcost
@@ -149,7 +153,8 @@ def A_Pathfinding(problem: ProblemInterface, viewer: ViewerInterface) -> Tuple[L
                     # adiciona o vizinho no Open
                     OPEN.append(n)
 
-        #viewer.update(state_node.state, generated=OPEN, expanded=CLOSED)
+        if VIEW is True:
+            viewer.update(state_node.state, generated=OPEN, expanded=CLOSED)
 
     path = _extract_path(goal_found)
     cost = _path_cost(problem, path)
@@ -191,7 +196,8 @@ def breadth_first_search(problem: ProblemInterface, viewer: ViewerInterface) -> 
 
         expanded.add(state_node)
 
-        #viewer.update(state_node.state, generated=to_explore, expanded=expanded)
+        if VIEW is True:
+            viewer.update(state_node.state, generated=to_explore, expanded=expanded)
 
     path = _extract_path(goal_found)
     cost = _path_cost(problem, path)
@@ -264,7 +270,8 @@ def uniform_cost_search(problem: ProblemInterface, viewer: ViewerInterface) -> T
                     # adiciona o vizinho no to_explore
                     to_explore.append(n)
 
-        #viewer.update(state_node.state, generated=to_explore, expanded=expanded)
+        if VIEW is True:
+            viewer.update(state_node.state, generated=to_explore, expanded=expanded)
 
     path = _extract_path(goal_found)
     cost = _path_cost(problem, path)
@@ -310,9 +317,10 @@ def _fcost(node_state: Node, problem: ProblemInterface) -> float:
     Gcost = problem.step_cost(problem.initial_state(),None,node_state)
     Hcost = problem.heuristic_cost(node_state)
     Fcost = Gcost + Hcost
+    #print(Gcost,Hcost,Fcost)
     return Fcost
 
 def _calc_weight(node_state: Node, problem: ProblemInterface) -> float:
-    #weight = problem.step_cost(problem.initial_state(),None,node_state)
-    weight = problem.heuristic_cost(node_state)
+    weight = problem.step_cost(problem.initial_state(),None,node_state)
+    #weight = problem.heuristic_cost(node_state)
     return weight

@@ -7,6 +7,7 @@ from src.search import A_Pathfinding
 from src.search import depth_first_search
 from src.search import uniform_cost_search
 
+LOOP = 1
 
 def main():
     maze_problem = MazeProblem(n_rows=20, n_cols=20, seed=None) # seed = none ira gerar uma seed aleatoria e ira printa-la
@@ -15,7 +16,7 @@ def main():
     resultado = []
 
     timers = []
-    for _ in range(10):    
+    for _ in range(LOOP):    
         start = time.time()
         path, cost = breadth_first_search(maze_problem, viewer)
         end = time.time()
@@ -30,9 +31,9 @@ def main():
     print(f"Uniform Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
 
     resultado.append(["breadth",cost,len(path)-1,avgtime])
-
+    
     timers = []
-    for _ in range(10):    
+    for _ in range(LOOP):    
         start = time.time()
         path, cost = A_Pathfinding(maze_problem, viewer)
         end = time.time()
@@ -49,7 +50,7 @@ def main():
     resultado.append(["A*     ",cost,len(path)-1,avgtime])
 
     timers = []
-    for _ in range(10):    
+    for _ in range(LOOP):    
         start = time.time()
         path, cost = depth_first_search(maze_problem, viewer)
         end = time.time()
@@ -66,7 +67,7 @@ def main():
     resultado.append(["Depth  ",cost,len(path)-1,avgtime])
 
     timers = []
-    for _ in range(10):    
+    for _ in range(LOOP):    
         start = time.time()
         path, cost = uniform_cost_search(maze_problem, viewer)
         end = time.time()
@@ -99,9 +100,9 @@ def show_table(dados,type):
         time += timer
         print("\t {} \t".format(timer))
 
-    print("Tempo medio:", time/10)
+    print("Tempo medio:", time/LOOP)
     print("---------------------------------------")
-    return time/10
+    return time/LOOP
 
 if __name__ == "__main__":
     main()
