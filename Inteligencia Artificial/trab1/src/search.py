@@ -7,7 +7,7 @@ from typing import Any, List, Union, Tuple
 from src.problems import ProblemInterface
 from src.viewer import ViewerInterface
 
-VIEW = True
+VIEW = True #False
 
 class  Node:
     # The output path is generated backwards starting from
@@ -205,6 +205,16 @@ def breadth_first_search(problem: ProblemInterface, viewer: ViewerInterface) -> 
     return path, cost
 
 
+def interative_deepenig():
+    """
+    inicia com d=0
+    expande o no em que esta
+    verifica se oq expandiu tem o goal
+    Nao encontrou? reinicia o processo e d+1
+
+    se ja foi visitado coloca no close
+    """
+
 def uniform_cost_search(problem: ProblemInterface, viewer: ViewerInterface) -> Tuple[List[Any], float]:
     to_explore = deque() # uma fila que so pode sair com prioridade qm tem o menor custo
     expanded = set() # uma coleçao de quem ja foi expandido
@@ -260,7 +270,7 @@ def uniform_cost_search(problem: ProblemInterface, viewer: ViewerInterface) -> T
                 # se sim pula
                 continue
             # se o caminho para o vizinho for peso menor OU o vizinho nao esta em to_explore
-            if ((weight < n.weight) or (n not in to_explore)):
+            if ((n not in to_explore)):
                 # define o peso do vizinho
                 n.weight = weight
                 # define o previous_node do vizinho para o node atual

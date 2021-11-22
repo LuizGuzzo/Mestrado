@@ -10,7 +10,7 @@ from src.search import uniform_cost_search
 LOOP = 1
 
 def main():
-    maze_problem = MazeProblem(n_rows=20, n_cols=20, seed=None) # seed = none ira gerar uma seed aleatoria e ira printa-la
+    maze_problem = MazeProblem(n_rows=30, n_cols=30, seed=None) # seed = none ira gerar uma seed aleatoria e ira printa-la
     viewer = MazeViewer(maze_problem, step_time_miliseconds=20, zoom=20)
 
     resultado = []
@@ -23,15 +23,15 @@ def main():
         timer = end - start
         timers.append(timer)
 
-    viewer.update(path=path)
-    viewer.pause()
+    #viewer.update(path=path)
+    #viewer.pause()
     avgtime = show_table(timers,"breadth")
     if len(path) == 0:
         print("Goal is unreachable for this maze.")
-    print(f"Uniform Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
+    print(f"Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
 
     resultado.append(["breadth",cost,len(path)-1,avgtime])
-    
+
     timers = []
     for _ in range(LOOP):    
         start = time.time()
@@ -40,12 +40,12 @@ def main():
         timer = end - start
         timers.append(timer)
 
-    viewer.update(path=path)
-    viewer.pause()
+    #viewer.update(path=path)
+    #viewer.pause()
     avgtime = show_table(timers,"A*")
     if len(path) == 0:
         print("Goal is unreachable for this maze.")
-    print(f"Uniform Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
+    print(f"Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
 
     resultado.append(["A*     ",cost,len(path)-1,avgtime])
 
@@ -57,12 +57,12 @@ def main():
         timer = end - start
         timers.append(timer)
 
-    viewer.update(path=path)
-    viewer.pause()
+    #viewer.update(path=path)
+    #viewer.pause()
     avgtime = show_table(timers,"Depth")
     if len(path) == 0:
         print("Goal is unreachable for this maze.")
-    print(f"Uniform Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
+    print(f"Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
 
     resultado.append(["Depth  ",cost,len(path)-1,avgtime])
 
@@ -79,7 +79,7 @@ def main():
     avgtime = show_table(timers,"Uniform")
     if len(path) == 0:
         print("Goal is unreachable for this maze.")
-    print(f"Uniform Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
+    print(f"Path cost: {cost}. Number of steps: {len(path)-1}. Time: {avgtime}")
 
     resultado.append(["Uniform",cost,len(path)-1,avgtime])
 
