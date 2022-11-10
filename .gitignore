@@ -1,2 +1,6 @@
 
 patternRecognition/assistent/
+
+*.pyc
+
+TeoriaComputacao/.vscode/
