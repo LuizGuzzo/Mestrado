@@ -6,6 +6,14 @@ REVERSE - recebe uma lista e retorn a lista invertida.
 
 """
 
+def printList(list):
+  toprint = []
+  while isnil(list) is false:
+    toprint.append(head(list)(inc)(0))
+    list = tail(list)
+  print(toprint)
+
+
 #lambda arguments : expression
 
 zero = lambda f: lambda x :    x       #Lf.Lx. x
@@ -47,8 +55,8 @@ pair = lambda x: lambda y: lambda z : z(x)(y) #Lx. Ly. Lz. z x y
 first = lambda p : p(true) #Lp. p(Lx. Ly. x) - Lx. Ly. x = true
 second = lambda p : p(false) #Lp. p(Lx. Ly. y) - Lx. Ly. y = false
 
-nil = pair(true)(true)
-isnil = lambda l: first(l)
+nil = pair(true)(true) # pair true true
+isnil = lambda l: first(l) # Ll. first l
 cons = lambda h: lambda t: pair(false)(pair(h)(t)) #Lh. Lt. pair false (pair h t)
 head = lambda z : first(second(z)) #Lz. first (second z)
 tail = lambda z : second(second(z)) #Lz. second (second z)
@@ -76,119 +84,8 @@ pred = lambda n:(first (n (pc) (pair (zero) (zero)))) # λn.(FIRST (n PC (PAIR 0
 isZero = lambda x: x(false) (nao) (false) # λx.(x FALSE NOT FALSE)
 leq = lambda m: lambda n: (isZero(n (pred) (m))) # λm.λn.(ISZERO (n PRED m)) - menor ou igual = Lm. Ln. (iszero ((n (pred) (m))))
 
-# lista = cons(1)(cons(2)(cons(3)(cons(4)(nil))))
 lista = cons(um)(cons(dois)(cons(tres)(cons(quatro)(nil))))
 
-# toprint = []
-# for i in range(100):
-#   toprint.append(head(lista))
-#   lista = tail(lista)
-#   if isnil(lista) is true:
-#     print("yes")
-#     break
-#   else:
-#     print("no")
-# print(toprint)
-
-# func = lambda f: lambda lst: (
-#   isnil(lst)
-#     (1)
-#     (head(lst)*f(tail(lst)))
-# )
-# multiLista = lambda lst: Y(func)(lst) # fatorial
-# print(multiLista(lista))
-
-#funciona
-# def combinaYPython(list):
-#   if isnil(list) == true:
-#     print("PAREI")
-#   else:
-#     print("cabeca: ",head(list))
-#     combinaYPython(tail(list))
-
-# print(combinaYPython(lista))
-
-#funciona
-# def combinaYPython(list):
-#   if isnil(list) == true:
-#     return 1
-#   else:
-#     return head(list) * combinaYPython(tail(list))
-
-Y = lambda f: (lambda x: x(x))(lambda y: f(lambda *args: y(y)(*args)))
-
-func = lambda f: lambda x: (
-  1
-  if x == 1
-  else
-    x * f(x-1)
-  )
-fact = lambda x: Y(func)(x) # fatorial
-# print(fact(5))
-
-
-# print("isnil(zero): ",isnil(zero)(1)(0))
-
-# codigo inicial
-# # first(par) = list | second(par) = value
-# minList = lambda f: lambda par: (
-#   lista = first(par)
-#   minValue = second(par)
-#   if isnil(first(par)) == true: # der true executa apenas a proxima execuçao, por entre () os outros
-#     return minValue # second(par)
-#   else:# se deu false vai rodar aqui
-#     val = head(lista)
-#     if val < minValue: # isZero(subtracao(minValue)(val)) #vai dar true ou false
-#       minValue = val # (f(pair(tail(lista))(head(lista))))
-#     f(pair(tail(lista))(minValue)) # (f(pair(tail(lista))(second(par))))
-# )
-
-
-# tentativa de transforma-lo em lambda calculo
-minList = lambda f: lambda par: (
-  (isnil(first(par)) # se chegou no final da lista
-    (second(par)) # retorna o minimo que esta no par
-    ((leq(second(par))(head(first(par)))) # se o minimo que esta no par é menor do que esta na cabeça da lista
-      (f(pair(tail(first(par)))(second(par)))) # chama a função diminuindo a lista e passando no par o valor que esta NO PAR
-      (f(pair(tail(first(par)))(head(first(par))))) # chama a função diminuindo a lista e passando no par o valor que esta NA CABEÇA DA LISTA
-    )
-  )
-) 
-
-
-# reducao pythonica da recursividade
-# def MINlist(par):
-#   lista = first(par)
-#   minValue = second(par)
-#   if isnil(first(par)) == true:
-#     print(minValue)
-#     return minValue
-#   else:
-#     val = head(lista)
-#     if val < minValue:
-#       minValue = val
-#     return MINlist(pair(tail(lista))(minValue))
-
-# print(MINlist(pair(lista)(head(lista))))
-
-# # conversao da reducao pythonica para lambda
-# def MINlist(par):
-#   if isnil(first(par)) == true:
-#     print(second(par))
-#     return second(par)
-#   else:
-#     if head(first(par)) > second(par):
-#       return MINlist(pair
-#                 (tail(first(par))) # calda da lista que recebeu como parametro do par
-#                 (second(par))      # o menor valor da lista que recebeu no par
-#               ) # chama a função diminuindo a lista e passando no par o valor que esta NO PAR
-#     else:
-#       return MINlist(pair
-#                 (tail(first(par))) # calda da lista que recebeu como parametro do par
-#                 (head(first(par))) # o dado que foi removido da lista
-#               ) # chama a função diminuindo a lista e passando no par o valor que esta N
-
-# print(MINlist(pair(lista)(head(lista))))
 
 # conversao da combY pythonica para lambda
 def MINlist(par):
@@ -221,15 +118,6 @@ def MAXlist(par):
                 (head(first(par))) # o dado que foi removido da lista
               )) # chama a função diminuindo a lista e passando no par o valor que esta N
 
-def printList(list):
-  toprint = []
-  for _ in range(100):
-    toprint.append(head(list)(inc)(0))
-    list = tail(list)
-    if isnil(list) is true:
-      break
-  print(toprint)
-
 def APPENDlist(par):
     listaOriginal = first(par)
     listaNew = second(par)
@@ -242,33 +130,27 @@ def APPENDlist(par):
         return cons(head(listaNew))(APPENDlist(pair(listaOriginal)(tail(listaNew)))) # reduz o tamanho da lista nova
 
 lista2 = cons(cinco)(cons(seis)(cons(sete)(cons(oito)(nil))))
+print("lista 1:")
 printList(lista)
+print("lista 2:")
 printList(lista2)
 listaMesclada = APPENDlist(pair(lista)(lista2))
 print("lista mesclada: ")
 printList(listaMesclada)
 
 def REVERSElist(lst):
-  num = head(lst)
-  calda = tail(lst)
-  if (isnil(num) == true):
+  if (isnil(head(lst)) == true):
     return nil
   else:
-    return APPENDlist(
-                      pair(
-                          REVERSElist(calda)
-                          )(
-                          cons(num)(nil)
-                          )
-                      )
+    return APPENDlist(pair(REVERSElist(tail(lst)))(cons(head(lst))(nil))) # adiciona uma lista que esta sendo criada em uma "lista" gerada pela cabeça
     
 
 listaReversed = REVERSElist(listaMesclada)
 print("lista Revertida: ")
 printList(listaReversed)
 
-print("menor valor da listaReversed: ",MINlist(pair(listaReversed)(head(listaReversed)))(inc)(0))
-print("maior valor da listaReversed: ",MAXlist(pair(listaReversed)(head(listaReversed)))(inc)(0))
+print("menor valor da lista: ",MINlist(pair(listaReversed)(head(listaReversed)))(inc)(0))
+print("maior valor da lista: ",MAXlist(pair(listaReversed)(head(listaReversed)))(inc)(0))
 
 
 # print("testando as funçoes")
