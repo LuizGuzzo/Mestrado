@@ -85,9 +85,22 @@ isZero = lambda x: x(false) (nao) (false) # λx.(x FALSE NOT FALSE)
 leq = lambda m: lambda n: (isZero(n (pred) (m))) # λm.λn.(ISZERO (n PRED m)) - menor ou igual = Lm. Ln. (iszero ((n (pred) (m))))
 
 lista = cons(um)(cons(dois)(cons(tres)(cons(quatro)(nil))))
+lista2 = cons(cinco)(cons(seis)(cons(sete)(cons(oito)(nil))))
 
 
-# conversao da combY pythonica para lambda
+#como seria se fosse apenas calculo lambda o minList
+lambMINList = lambda f: lambda par: (
+  (isnil(first(par)) # se chegou no final da lista
+    (second(par)) # retorna o minimo que esta no par
+    ((leq(second(par))(head(first(par)))) # se o minimo que esta no par é menor do que esta na cabeça da lista
+      (f(pair(tail(first(par)))(second(par)))) # chama a função diminuindo a lista e passando no par o valor que esta NO PAR
+      (f(pair(tail(first(par)))(head(first(par))))) # chama a função diminuindo a lista e passando no par o valor que esta NA CABEÇA DA LISTA
+    )
+  )
+) 
+# lambMIN = Y(lambMINList)(pair(lista)(head(lista))) 
+
+# tradução da função em calculo lambda para o mais proximo possivel da estrutura do calculo lambda, mas funcionando em python
 def MINlist(par):
   if isnil(first(par)) == true:
     return second(par)
@@ -103,6 +116,21 @@ def MINlist(par):
                 (head(first(par))) # o dado que foi removido da lista
               )) # chama a função diminuindo a lista e passando no par o valor que esta N
 
+
+# como seria se fosse apenas calculo lambda o maxList
+# mesma coisa do min, mas inverte o parametro no "leq"
+
+lambMAXList = lambda f: lambda par: (
+  (isnil(first(par)))
+    (second(par))
+    ((leq(head(first(par)))(second(par)))
+      (f(pair(tail(first(par)))(second(par))))
+      (f(pair(tail(first(par)))(head(first(par)))))
+    )
+)
+# lambMAX = Y(lambMAXList)(pair(lista)(head(lista))) 
+
+# tradução da função em calculo lambda para o mais proximo possivel da estrutura do calculo lambda, mas funcionando em python
 def MAXlist(par):
   if isnil(first(par)) == true:
     return second(par)
@@ -118,10 +146,11 @@ def MAXlist(par):
                 (head(first(par))) # o dado que foi removido da lista
               )) # chama a função diminuindo a lista e passando no par o valor que esta N
 
+
 def APPENDlist(par):
     listaOriginal = first(par)
     listaNew = second(par)
-    if (isnil(listaNew) == true) and (isnil(listaOriginal) == true) : #acabou o processamento das listas
+    if (isnil(listaNew) == true) : #acabou o processamento da lista
       return nil # retorna o ultimo valor q é nil
     else:
       if isnil(listaOriginal) == false: # roda se nao chegou no final da lista original
@@ -129,7 +158,20 @@ def APPENDlist(par):
       if isnil(listaNew) == false: # roda se nao chegou no final da lista nova
         return cons(head(listaNew))(APPENDlist(pair(listaOriginal)(tail(listaNew)))) # reduz o tamanho da lista nova
 
-lista2 = cons(cinco)(cons(seis)(cons(sete)(cons(oito)(nil))))
+# como seria se fosse apenas calculo lambda
+lambAPPENDlist = lambda f: lambda par: (
+    (isnil(second(par)) == true) #acabou o processamento da lista
+      (nil) # retorna o ultimo valor q é nil
+      (
+        (isnil(first(par))) # roda se nao chegou no final da lista original
+          (cons(head(first(par)))(lambAPPENDlist(pair(tail(first(par)))(second(par))))) # reduz o tamanho da lista original
+        (isnil(second(par))) # roda se nao chegou no final da lista nova
+          (cons(head(second(par)))(lambAPPENDlist(pair(first(par))(tail(second(par)))))) # reduz o tamanho da lista nova
+      )
+)
+# lambAPPEND = Y(lambAPPENDlist)(pair(lista)(lista2))
+
+
 print("lista 1:")
 printList(lista)
 print("lista 2:")
@@ -143,14 +185,30 @@ def REVERSElist(lst):
     return nil
   else:
     return APPENDlist(pair(REVERSElist(tail(lst)))(cons(head(lst))(nil))) # adiciona uma lista que esta sendo criada em uma "lista" gerada pela cabeça
-    
+
+#implementação em calculo lambda do REVERSElist
+lambdaREVERSElist = lambda f: lambda lst: (
+  (isnil(head(lst))) # enquanto nao acabar a lst
+    (nil) # quando acabar
+    (APPENDlist(pair(REVERSElist(tail(lst)))(cons(head(lst))(nil)))) # adiciona uma lista que esta sendo criada em uma "lista" gerada pela cabeça
+)
+# lambdaREVERSE = Y(lambdaREVERSElist)(listaMesclada)
+
 
 listaReversed = REVERSElist(listaMesclada)
 print("lista Revertida: ")
 printList(listaReversed)
+print("lista Revertida 2x: ")
+listaReversed = REVERSElist(listaReversed)
+printList(listaReversed)
 
 print("menor valor da lista: ",MINlist(pair(listaReversed)(head(listaReversed)))(inc)(0))
 print("maior valor da lista: ",MAXlist(pair(listaReversed)(head(listaReversed)))(inc)(0))
+
+
+
+
+
 
 
 # print("testando as funçoes")
