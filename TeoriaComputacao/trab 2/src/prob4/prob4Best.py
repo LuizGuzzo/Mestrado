@@ -1,6 +1,13 @@
 import random
 from copy import deepcopy
 
+# um loop para cada membro apenas para transformar em uma lista de Index igual o exercicio pede
+def equipe_to_index(L,equipe):
+    index_equipe = []
+    for e in equipe:
+        index_equipe.append(L.index(e))
+    return index_equipe
+
 def EMP(L, m, k):
     selecionados, pendentes = L[:k] , L[k:]    
     # limite = 0
@@ -10,6 +17,7 @@ def EMP(L, m, k):
     for _ in range(len(L)): # roda L vezes, pegando todos os membros
             
         if competenciasAtendidas >= m:
+            selecionados = equipe_to_index(L,selecionados)
             return selecionados
 
         # Escolha um candidato da lista de selecionados
@@ -61,19 +69,27 @@ def competencias_cobertas(equipe):
 
     return len(competencias)
 
+"""
+# gerador de Candidatos
 import random
 M = 15 # num total de competencias coberto pela equipe
 K = 4 # numero de empregados que ira compor a equipe
-
 habilidades = list(range(M)) # cria uma lista com as 15 habilidades possíveis
-
 L = []
 for i in range(3000): # tamanho de L
     habilidades_pessoa = random.sample(habilidades, 4) # escolhe 4 habilidades aleatórias para a pessoa
     L.append(habilidades_pessoa)
+res = EMP(L,M,K) #bigO O(N^k)
+"""
+"""
+# teste de candidatos
+L = [[0,2],[0,1],[2,3],[4,5,7],[4,5,6],[7,8,9]]
+M = 10 # num total de competencias coberto pela equipe
+K = 4 # numero de empregados que ira compor a equipe
+res = EMP(L,M,K) #bigO O(N^k)
+"""
 
-# L = [[14, 6, 1, 13], [2, 3, 9, 12], [5, 13, 8, 14], [6, 13, 8, 0], [12, 7, 8, 11], [1, 12, 6, 10], [13, 5, 8, 14], [3, 12, 6, 13], [13, 7, 4, 0], [5, 0, 10, 8], [4, 13, 9, 11], [1, 4, 5, 2], [11, 2, 14, 0], [8, 2, 3, 6], [3, 5, 2, 7], [13, 1, 8, 10], [14, 3, 7, 6], [8, 3, 9, 4], [13, 3, 4, 6], [8, 11, 13, 9], [14, 0, 2, 1], [2, 6, 1, 0], [8, 2, 7, 9], [11, 8, 13, 6], [7, 2, 10, 1], [4, 14, 9, 2], [14, 3, 8, 1], [1, 0, 14, 4], [11, 6, 12, 2], [7, 12, 8, 14]]
-# print(L)
-res = EMP(L,M,K)
+# problema do exercicio
+res = EMP([[0,1,2],[1,3],[4,3]],5,2)
+
 print(res)
-

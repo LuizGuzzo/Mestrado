@@ -1,7 +1,8 @@
-import re
+# import re
 import argparse
-import regex
+import regeng
 
+# codigo Origem: https://github.com/tonisidneimc/Regex-Engine
 
 # Arguments
 parser = argparse.ArgumentParser()
@@ -23,14 +24,15 @@ if ".txt" in args.regex[-4:]:
 else:
 	reg = args.regex
 
-#reg = [0-9]+
-#txt = bana2na
 
 # x = re.search(reg, txt)
 
+r = regeng.Regex(reg)
+x = r.match(txt)
 
 
 if x:
 	print("YES! We have a match!")
 else:
 	print("No match")
+

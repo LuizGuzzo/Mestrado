@@ -1,4 +1,5 @@
-#https://open.kattis.com/problems/different
+# exercicio: https://open.kattis.com/problems/different
+# virou easy...
 
 while(True):
     try:

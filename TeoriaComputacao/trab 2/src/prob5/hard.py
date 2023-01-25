@@ -32,41 +32,47 @@ from math import inf
 from os import system
 import platform
 
+# Referencia: https://github.com/Cledersonbc/tic-tac-toe-minimax
+
 MARTEN = -1 # IA do Kattis : O
 NETRAM = +1 # minha IA - é a q espero que vença : X
     
 def minimax(mesa,depth,jogador):
-    # Referencia: https://github.com/Cledersonbc/tic-tac-toe-minimax
+    
     if jogador == NETRAM:
-        best = [-1,-1,-inf]
+        bestMove = [-1,-1]
+        bestScore = -inf
     else:
-        best = [-1,-1,+inf]
+        bestMove = [-1,-1]
+        bestScore = +inf
 
     if depth == 0 or game_over(mesa):
         score = valida(mesa)
-        return [-1,-1,score]
+        return [-1,-1], score
 
     for celula in celulas_vazias(mesa):
         x,y = celula[0], celula[1]
         mesa[x][y] = jogador
-        score = minimax(mesa,depth-1,-jogador)
+        move, score = minimax(mesa,depth-1,-jogador)
         mesa[x][y] = 0
-        score[0],score[1] = x,y
+        move[0],move[1] = x,y
 
         if jogador == NETRAM:
-            if score[2] > best[2]:
-                best = score # maior valor
+            if score > bestScore:
+                bestScore = score
+                bestMove = move
         else:
-            if score[2]< best[2]:
-                best = score # menor valor
+            if score < bestScore:
+                bestScore = score
+                bestMove = move
         
 
-    return best
+    return bestMove, bestScore
 
 def game_over(mesa):
     return vencedor(mesa,NETRAM) or vencedor(mesa,MARTEN) or check_tilt(mesa)
 
-def check_tilt(mesa): # checar se tem mais X q O (caçando problema de n ta rodando)
+def check_tilt(mesa): # checar se tem mais X que O
     qX = 0
     qO = 0
     for linha in mesa:
@@ -122,7 +128,7 @@ def netram_turno(mesa):
     if depth == 9:
         x,y = randrange(3),randrange(3)
     else:
-        x,y,_ = minimax(mesa,depth,NETRAM)
+        [x,y],_ = minimax(mesa,depth,NETRAM)
     
     mesa[x][y] = NETRAM
 
@@ -187,7 +193,6 @@ while len(celulas_vazias(mesa))>0 and not game_over(mesa):
     elif move == "second":
         #imprime a mesa do movimento do oponente
         mesa = matren_turno_leitura(mesa) # lendo a mesa
-        #output a grid with the move you perfomed
         mesa = netram_turno(mesa)
         move = ""
     
